@@ -1,0 +1,21 @@
+﻿  Culebra.cpp
+C:\carlossantos\git\Snake_Game\Culebra.cpp(25,27): warning C4018: '<': no coinciden signed/unsigned
+  Food.cpp
+C:\carlossantos\git\Snake_Game\Food.cpp(4,80): warning C4309: 'inicializando': truncamiento de valor constante
+  Game.cpp
+C:\carlossantos\git\Snake_Game\Game.cpp(19,17): warning C4244: 'inicializando': conversión de 'float' a 'long'; posible pérdida de datos
+  Objetos.cpp
+  Scene.cpp
+C:\carlossantos\git\Snake_Game\Scene.cpp(5,15): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
+C:\carlossantos\git\Snake_Game\Scene.cpp(56,23): warning C4018: '<': no coinciden signed/unsigned
+C:\carlossantos\git\Snake_Game\Scene.cpp(78,23): warning C4018: '<': no coinciden signed/unsigned
+C:\carlossantos\git\Snake_Game\Scene.cpp(134,23): warning C4018: '<': no coinciden signed/unsigned
+C:\carlossantos\git\Snake_Game\Scene.cpp(143,23): warning C4018: '<': no coinciden signed/unsigned
+C:\carlossantos\git\Snake_Game\Scene.cpp(216,14): warning C4309: 'inicializando': truncamiento de valor constante
+C:\carlossantos\git\Snake_Game\Scene.cpp(215,10): warning C4101: 'key': variable local sin referencia
+C:\carlossantos\git\Snake_Game\Scene.cpp(262,14): warning C4309: 'inicializando': truncamiento de valor constante
+C:\carlossantos\git\Snake_Game\Scene.cpp(306,14): warning C4309: 'inicializando': truncamiento de valor constante
+  Snake_Game.cpp
+  Wall.cpp
+  Generando código...
+  Snake_Game.vcxproj -> C:\carlossantos\git\Snake_Game\Debug\Snake_Game.exe

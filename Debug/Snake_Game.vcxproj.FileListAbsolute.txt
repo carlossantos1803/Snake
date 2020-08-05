@@ -1,0 +1,2 @@
+C:\carlossantos\git\Snake_Game\Debug\Snake_Game.exe
+C:\carlossantos\git\Snake_Game\Debug\Snake_Game.pdb

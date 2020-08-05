@@ -139,7 +139,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Culebra.cpp" />
+    <ClCompile Include="Food.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Objetos.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Snake_Game.cpp" />
+    <ClCompile Include="Wall.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Culebra.h" />
+    <ClInclude Include="Food.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="Objetos.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="Wall.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -84,7 +84,6 @@ void Game::run()
 void Game::muerte2() {
     system("cls");
     int c = 24, f = 79, r;
-    char key;
     char t = 178;
     for (int i = 0; i < f; i++) {
         gotoxy(i, 0);

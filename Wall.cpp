@@ -13,7 +13,7 @@ void Wall::setTipoPared(bool t_tipo)
 	paredNormal = t_tipo;
 }
 
-void Wall::setObject(std::vector<std::pair<int, int>> t_object)
+void Wall::setObject(const std::vector<std::pair<int, int>>& t_object)
 {
     for (int i = 3; i < t_object[0].first; ++i) {
         pared.push_back(std::make_pair(i, 2));
@@ -23,7 +23,7 @@ void Wall::setObject(std::vector<std::pair<int, int>> t_object)
         pared.push_back(std::make_pair(2, i));
         pared.push_back(std::make_pair(t_object[0].first, i));
     }
-    for (auto i : pared) {
+    for (const auto& i : pared) {
         body.push_back(219);
     }
 }

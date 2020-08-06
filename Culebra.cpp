@@ -16,7 +16,7 @@ Culebra::Culebra() {
     std::vector<std::pair<int, int>> Culebra::getObject() {
         return snake;
     }
-    void Culebra::setObject(std::vector <std::pair<int, int>> t_snake) {
+    void Culebra::setObject(const std::vector <std::pair<int, int>>& t_snake) {
         snake = t_snake;
     }
     char Culebra::getDirection() {
@@ -27,7 +27,7 @@ Culebra::Culebra() {
      }
     bool Culebra::restricciones() {
         //aqui van los if los cuales limitaran el movimiento de la snake
-        for (int i = 1; i < snake.size(); ++i) {
+        for (unsigned int i = 1; i < snake.size(); ++i) {
             if (snake[0] == snake[i]) {
                 return true;
             }

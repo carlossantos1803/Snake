@@ -52,7 +52,7 @@ void Scene::crearScena() {
 void Scene::update()
 {
     if (snake.getObject()[0] == food.getObject()[0]) {
-        PlaySound(TEXT("tragar2.wav"), NULL, SND_ASYNC);
+        PlaySound(TEXT("tragar.wav"), NULL, SND_ASYNC);
         snake.growSnake();
         newFood();
         pintar(food);
@@ -67,7 +67,7 @@ void Scene::newFood()
     x = rand() % (board_X - 3) + 3;
     y = rand() % (board_Y - 4) + 3;
     temp.push_back(std::make_pair(x, y));
-    for (int i = 0; i < snake.getObject().size(); ++i) {
+    for (unsigned int i = 0; i < snake.getObject().size(); ++i) {
         if (snake.getObject()[i] != temp[0]) {
             food.setObject(temp);
             gotoxy(55, 15);
@@ -93,10 +93,10 @@ void Scene::moveSnake()
 
 void Scene::direccion(char direction)
 {   
-    if (snake.getDirection() == 'w' && direction == 's' || 
-        snake.getDirection() == 's' && direction == 'w' ||
-        snake.getDirection() == 'a' && direction == 'd' ||
-        snake.getDirection() == 'd' && direction == 'a'  ) 
+    if ((snake.getDirection() == 'w' && direction == 's') || 
+        (snake.getDirection() == 's' && direction == 'w') ||
+        (snake.getDirection() == 'a' && direction == 'd') ||
+        (snake.getDirection() == 'd' && direction == 'a')  ) 
     {
         snake.setDirection(snake.getDirection());
     }
@@ -107,15 +107,14 @@ void Scene::direccion(char direction)
 
 bool Scene::restricciones()
 {
-    bool temp = false;
-    /*for (int i = 1; i < wall.getWall().size(); ++i) {
+   /*for (int i = 1; i < wall.getWall().size(); ++i) {
         if (snake.getSnake()[0] == wall.getWall()[i]) {
             temp = true;
             break;
         }
         
     }*/
-    if (temp || snake.restricciones()||tipoPared) {
+    if (snake.restricciones()||tipoPared) {
         return true;
     }
     return false;
@@ -123,7 +122,7 @@ bool Scene::restricciones()
 
 void Scene::wallMagic(bool type) {
     std::vector<std::pair<int, int>> t_snake = snake.getObject();
-    for (int i = 0; i < wall.getObject().size(); ++i) {
+    for (unsigned int i = 0; i < wall.getObject().size(); ++i) {
         if (snake.getObject()[0] == wall.getObject()[i]) {
             SetConsoleTextAttribute(console, 15);
             gotoxy(wall.getObject()[i].first, wall.getObject()[i].second);
@@ -198,7 +197,7 @@ void Scene::tiempo()
     static long   t = clock();
     const float fps = 5.0f;
 
-    long toWait = t + CLOCKS_PER_SEC / fps - clock();
+    long toWait = (long)(t + CLOCKS_PER_SEC / fps - clock());
     if (toWait > 0) {
         Sleep(toWait);
     }

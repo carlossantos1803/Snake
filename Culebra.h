@@ -7,13 +7,13 @@ public:
     Culebra();
     ~Culebra();
     std::vector<std::pair<int, int>> getObject() override;
-    void setObject(std::vector <std::pair<int, int>> t_snake) override;
+    void setObject(const std::vector<std::pair<int, int>>& t_object) override;
     char getDirection();
     void setDirection(char t_direction);
     bool restricciones();
     void growSnake();
     void moverSnake();
-    std::vector<char> getBody();
+    std::vector<char> getBody() override;
     WORD getColor() override;
 
 private:

@@ -6,7 +6,7 @@
     }
     Food::~Food() {};
     
-    void Food::setObject(std::vector<std::pair<int, int>> t_object)
+    void Food::setObject(const std::vector<std::pair<int, int>>& t_object)
     {
         ubicacion = t_object;
     }

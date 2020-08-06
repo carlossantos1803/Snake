@@ -1,19 +1,20 @@
 #pragma once
-#include <utility>
+#include "Objetos.h"
 
-class Food
+class Food : 
+    public Objetos
 {
 public:
     Food();
-    Food(std::pair<int, int>);
     ~Food();
-    void setUbicacion(std::pair<int, int> t_ubicacion);
-    std::pair<int, int> getUbicacion();
-    char getBody();
+    void setObject(std::vector<std::pair<int, int>> t_object) override;
+    std::vector<std::pair<int, int>> getObject() override;
+    std::vector<char> getBody() override;
+    WORD getColor() override;
 private:
-    std::pair<int, int> ubicacion;
-    int x = 0, y = 0;
-    char body;
+    std::vector<std::pair<int, int>> ubicacion;
+    std::vector<char> body;
+    WORD color;
 };
 
 

@@ -5,13 +5,16 @@
         for (int i = 0; i < 3; ++i) {
             snake.push_back(std::make_pair(8, 10 - i));
         }
+        body.push_back(64);
+        body.push_back(79);
+        color = 10;
     };
     Culebra::~Culebra() {};
 
-    std::vector<std::pair<int, int>> Culebra::getSnake() {
+    std::vector<std::pair<int, int>> Culebra::getObject() {
         return snake;
     }
-    void Culebra::setSnake(std::vector <std::pair<int, int>> t_snake) {
+    void Culebra::setObject(std::vector <std::pair<int, int>> t_snake) {
         snake = t_snake;
     }
     char Culebra::getDirection() {
@@ -70,6 +73,16 @@
             }
             snake[0].first = snake[0].first - 1;
         }
+    }
+
+    std::vector<char> Culebra::getBody()
+    {
+        return body;
+    }
+
+    WORD Culebra::getColor()
+    {
+        return color;
     }
 
 

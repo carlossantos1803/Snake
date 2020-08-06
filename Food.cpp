@@ -1,17 +1,28 @@
 #include "Food.h"
 
-    Food::Food(){}
-    Food::Food(std::pair<int, int> t_ubicacion) : ubicacion(t_ubicacion), body(149) {};
-    Food::~Food() {};
-    void Food::setUbicacion(std::pair<int, int> t_ubicacion) {
-        ubicacion = t_ubicacion;
+    Food::Food(){
+        body.push_back(149);
+        color = 12;
     }
-    std::pair<int, int> Food::getUbicacion() {
+    Food::~Food() {};
+    
+    void Food::setObject(std::vector<std::pair<int, int>> t_object)
+    {
+        ubicacion = t_object;
+    }
+    
+    std::vector<std::pair<int, int>> Food::getObject()
+    {
         return ubicacion;
     }
 
-    char Food::getBody()
+    std::vector<char> Food::getBody()
     {
         return body;
+    }
+
+    WORD Food::getColor()
+    {
+        return color;
     }
 

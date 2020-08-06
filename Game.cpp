@@ -74,7 +74,6 @@ void Game::run()
         tiempo();
         scene.limpiarSnake();
         scene.moveSnake();
-        scene.pintarSnake();
         scene.wallMagic(true);
         //scene.teletransporter();
         scene.update();

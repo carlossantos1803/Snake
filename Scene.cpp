@@ -6,7 +6,8 @@ Scene::Scene()
     console = GetStdHandle(STD_OUTPUT_HANDLE);
     board_X = 100 / 2;
     board_Y = 25;
-    food = Food(std::make_pair(rand() % (board_X - 3) + 3, rand() % (board_Y - 3) + 3));
+    food = Food();
+    newFood();
     snake = Culebra();
     wall = Wall();
     tipoPared = false;
@@ -26,33 +27,36 @@ void Scene::gotoxy(int t_x, int t_y)
 void Scene::pintarFood()
 {
     SetConsoleTextAttribute(console, FOREGROUND_INTENSITY | FOREGROUND_RED);
-    gotoxy(food.getUbicacion().first, food.getUbicacion().second);
-    printf("%c", 149);
+    gotoxy(food.getObject()[0].first, food.getObject()[0].second);
+    printf("%c", food.getBody()[0]);
 }
 
 void Scene::pintarSnake()
 {
-    SetConsoleTextAttribute(console, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-    gotoxy(snake.getSnake()[0].first, snake.getSnake()[0].second);
-    printf("%c", 64);
-    for (unsigned int i = 1; i < snake.getSnake().size(); ++i) {
-        gotoxy(snake.getSnake()[i].first, snake.getSnake()[i].second);
-        printf("%c", 79);
+    SetConsoleTextAttribute(console, 10);
+    gotoxy(snake.getObject()[0].first, snake.getObject()[0].second);
+    printf("%c", snake.getBody()[0]);
+    for (unsigned int i = 1; i < snake.getObject().size(); ++i) {
+        gotoxy(snake.getObject()[i].first, snake.getObject()[i].second);
+        printf("%c", snake.getBody()[1]);
     }
 }
 
-void Scene::pintar(std::vector<std::pair<int,int>> &obj, char t_body, WORD t_color)
+void Scene::pintar(Objetos &obj)
 {//con este metodo voy a pintar cada uno de los objetos creados en el juego
-    SetConsoleTextAttribute(console,t_color);
-    for (unsigned int i = 1; i < obj.size(); ++i) {
-        gotoxy(obj[i].first, obj[i].second);
-        printf("%c", t_body);
+    SetConsoleTextAttribute(console, obj.getColor());
+    gotoxy(obj.getObject()[0].first, obj.getObject()[0].second);
+    printf("%c", obj.getBody()[0]);
+    for (unsigned int i = 1; i < obj.getObject().size(); ++i) {
+        gotoxy(obj.getObject()[i].first, obj.getObject()[i].second);
+        printf("%c", obj.getBody()[1]);
     }
+    
 }
 
 void Scene::limpiarSnake()
 {
-    std::vector<std::pair<int, int>> t_snake = snake.getSnake();
+    std::vector<std::pair<int, int>> t_snake = snake.getObject();
     for (int i = 0; i < t_snake.size(); ++i) {
         gotoxy(t_snake[i].first, t_snake[i].second);
         printf(" ");
@@ -61,27 +65,27 @@ void Scene::limpiarSnake()
 
 void Scene::update()
 {
-    if (snake.getSnake()[0] == food.getUbicacion()) {
+    if (snake.getObject()[0] == food.getObject()[0]) {
         snake.growSnake();
         newFood();
-        pintarFood();
+        pintar(food);
     }
 }
 
 void Scene::newFood()
 {
-    std::pair<int, int> temp;
+    std::vector<std::pair<int, int>> temp;
     unsigned int x = 0, y = 0;
     x = rand() % (board_X - 3) + 3;
     y = rand() % (board_Y - 4) + 3;
-    temp = std::make_pair(x, y);
-    for (int i = 0; i < snake.getSnake().size(); ++i) {
-        if (snake.getSnake()[i] != temp) {
-            food.setUbicacion(std::make_pair(x, y));
+    temp.push_back(std::make_pair(x, y));
+    for (int i = 0; i < snake.getObject().size(); ++i) {
+        if (snake.getObject()[i] != temp[0]) {
+            food.setObject(temp);
             gotoxy(55, 15);
-            printf(" %d , %d ", food.getUbicacion().first, food.getUbicacion().second);
+            printf(" %d , %d ", food.getObject()[0].first, food.getObject()[0].second);
          }
-        else if (snake.getSnake()[i] == temp) {
+        else if (snake.getObject()[i] == temp[0]) {
             newFood();
             break;
         }
@@ -93,8 +97,9 @@ void Scene::newFood()
 void Scene::moveSnake()
 {
     snake.moverSnake();
+    pintar(snake);
     gotoxy(55, 16);
-    printf(" %d , %d ", snake.getSnake()[0].first, snake.getSnake()[0].second);
+    printf(" %d , %d ", snake.getObject()[0].first, snake.getObject()[0].second);
 }
 
 void Scene::direccion(char direction)
@@ -127,24 +132,31 @@ bool Scene::restricciones()
     return false;
 }
 
+void Scene::setWall() {
+    std::vector<std::pair<int, int>> pared;
+    pared.push_back(std::make_pair(board_X, board_Y));
+    wall.setObject(pared);
+
+}
+
 void Scene::makeWall()
 {
-    wall.setWall(board_X, board_Y);
+    setWall();
     SetConsoleTextAttribute(console, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-    for (int i = 0; i < wall.getWall().size(); ++i) {
-        gotoxy(wall.getWall()[i].first, wall.getWall()[i].second);
-        printf("%c", 219);
+    for (int i = 0; i < wall.getObject().size(); ++i) {
+        gotoxy(wall.getObject()[i].first, wall.getObject()[i].second);
+        printf("%c", wall.getBody()[0]);
     }
 }
 
 
 void Scene::wallMagic(bool type) {
-    std::vector<std::pair<int, int>> t_snake = snake.getSnake();
-    for (int i = 0; i < wall.getWall().size(); ++i) {
-        if (snake.getSnake()[0] == wall.getWall()[i]) {
+    std::vector<std::pair<int, int>> t_snake = snake.getObject();
+    for (int i = 0; i < wall.getObject().size(); ++i) {
+        if (snake.getObject()[0] == wall.getObject()[i]) {
             SetConsoleTextAttribute(console, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-            gotoxy(wall.getWall()[i].first, wall.getWall()[i].second);
-            printf("%c", 219);
+            gotoxy(wall.getObject()[i].first, wall.getObject()[i].second);
+            printf("%c", wall.getBody()[0]);
             if (!type) {
                 tipoPared = true;
                 //break;
@@ -168,7 +180,7 @@ void Scene::wallMagic(bool type) {
         }
         
     }
-    snake.setSnake(t_snake);
+    snake.setObject(t_snake);
 }
 
 void Scene::teletransporter() {

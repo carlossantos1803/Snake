@@ -1,19 +1,22 @@
 #pragma once
 
-#include <vector>
-#include <utility>
-class Wall
+#include "Objetos.h"
+class Wall :
+    public Objetos
 {
 public:
     Wall();
     ~Wall();
     void setTipoPared(bool t_tipo);
-    void setWall(int board_X, int board_Y);
-    std::vector < std::pair<int, int>> getWall();
+    void setObject(std::vector<std::pair<int,int>> t_object) override;
+    std::vector < std::pair<int, int>> getObject() override;
+    std::vector<char> getBody() override;
+    WORD getColor() override;
 private:
     bool paredNormal;
     std::vector < std::pair<int, int>> pared;
-    char body;
+    std::vector<char> body;
+    WORD color;
 };
 
 

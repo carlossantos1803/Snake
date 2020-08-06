@@ -19,7 +19,7 @@ public:
 	void gotoxy(int t_x, int t_y);
 	void pintarFood();
 	void pintarSnake();
-	void pintar(std::vector<std::pair<int, int>> &obj, char t_body, WORD t_color);
+	void pintar(Objetos &obj);
 	void makeWall();
 	void limpiarSnake();
 	void update();
@@ -33,6 +33,9 @@ public:
 	void muerte2();
 	void portada();
 	void portada2();
+private:
+	void setWall();
+
 private:
 	//HANDLE hCon;
 	COORD dwPos;

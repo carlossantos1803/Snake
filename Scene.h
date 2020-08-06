@@ -17,11 +17,9 @@ public:
 	Scene();
 	~Scene();
 	void gotoxy(int t_x, int t_y);
-	void pintarFood();
-	void pintarSnake();
 	void pintar(Objetos &obj);
-	void makeWall();
-	void limpiarSnake();
+	void limpiar(Objetos& obj);
+	void crearScena();
 	void update();
 	void newFood();
 	void moveSnake();
@@ -30,16 +28,10 @@ public:
 	void wallMagic(bool);
 	void teletransporter();
 	bool leerTeclado();
-	void muerte2();
-	void portada();
-	void portada2();
+	void tiempo();
 private:
-	void setWall();
-
-private:
-	//HANDLE hCon;
 	COORD dwPos;
-	HANDLE console;// = GetStdHandle(STD_OUTPUT_HANDLE);
+	HANDLE console;
 	Food food;
 	Culebra snake;
 	Wall wall;

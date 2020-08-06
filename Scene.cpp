@@ -11,6 +11,9 @@ Scene::Scene()
     snake = Culebra();
     wall = Wall();
     tipoPared = false;
+    std::vector<std::pair<int, int>> pared;
+    pared.push_back(std::make_pair(board_X, board_Y));
+    wall.setObject(pared);
 }
 
 Scene::~Scene()
@@ -24,51 +27,36 @@ void Scene::gotoxy(int t_x, int t_y)
     SetConsoleCursorPosition(console, dwPos);
 }
 
-void Scene::pintarFood()
-{
-    SetConsoleTextAttribute(console, FOREGROUND_INTENSITY | FOREGROUND_RED);
-    gotoxy(food.getObject()[0].first, food.getObject()[0].second);
-    printf("%c", food.getBody()[0]);
-}
-
-void Scene::pintarSnake()
-{
-    SetConsoleTextAttribute(console, 10);
-    gotoxy(snake.getObject()[0].first, snake.getObject()[0].second);
-    printf("%c", snake.getBody()[0]);
-    for (unsigned int i = 1; i < snake.getObject().size(); ++i) {
-        gotoxy(snake.getObject()[i].first, snake.getObject()[i].second);
-        printf("%c", snake.getBody()[1]);
-    }
-}
-
 void Scene::pintar(Objetos &obj)
-{//con este metodo voy a pintar cada uno de los objetos creados en el juego
+{
     SetConsoleTextAttribute(console, obj.getColor());
-    gotoxy(obj.getObject()[0].first, obj.getObject()[0].second);
-    printf("%c", obj.getBody()[0]);
-    for (unsigned int i = 1; i < obj.getObject().size(); ++i) {
+    for (unsigned int i = 0; i < obj.getObject().size(); ++i) {
         gotoxy(obj.getObject()[i].first, obj.getObject()[i].second);
-        printf("%c", obj.getBody()[1]);
-    }
-    
+        printf("%c", obj.getBody()[i]);
+    }   
 }
 
-void Scene::limpiarSnake()
+void Scene::limpiar(Objetos& obj)
 {
-    std::vector<std::pair<int, int>> t_snake = snake.getObject();
-    for (int i = 0; i < t_snake.size(); ++i) {
-        gotoxy(t_snake[i].first, t_snake[i].second);
+    for (const auto& i : obj.getObject()) {
+        gotoxy(i.first, i.second);
         printf(" ");
     }
+}
+
+void Scene::crearScena() {
+    pintar(wall);
+    pintar(food);
 }
 
 void Scene::update()
 {
     if (snake.getObject()[0] == food.getObject()[0]) {
+        PlaySound(TEXT("tragar2.wav"), NULL, SND_ASYNC);
         snake.growSnake();
         newFood();
         pintar(food);
+        
     }
 }
 
@@ -96,6 +84,7 @@ void Scene::newFood()
 
 void Scene::moveSnake()
 {
+    limpiar(snake);
     snake.moverSnake();
     pintar(snake);
     gotoxy(55, 16);
@@ -132,29 +121,11 @@ bool Scene::restricciones()
     return false;
 }
 
-void Scene::setWall() {
-    std::vector<std::pair<int, int>> pared;
-    pared.push_back(std::make_pair(board_X, board_Y));
-    wall.setObject(pared);
-
-}
-
-void Scene::makeWall()
-{
-    setWall();
-    SetConsoleTextAttribute(console, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-    for (int i = 0; i < wall.getObject().size(); ++i) {
-        gotoxy(wall.getObject()[i].first, wall.getObject()[i].second);
-        printf("%c", wall.getBody()[0]);
-    }
-}
-
-
 void Scene::wallMagic(bool type) {
     std::vector<std::pair<int, int>> t_snake = snake.getObject();
     for (int i = 0; i < wall.getObject().size(); ++i) {
         if (snake.getObject()[0] == wall.getObject()[i]) {
-            SetConsoleTextAttribute(console, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+            SetConsoleTextAttribute(console, 15);
             gotoxy(wall.getObject()[i].first, wall.getObject()[i].second);
             printf("%c", wall.getBody()[0]);
             if (!type) {
@@ -221,140 +192,17 @@ bool Scene::leerTeclado()
     return false;
 }
 
-void Scene::muerte2() {
-    system("cls");
-    int c = 24, f = 79, r;
-    char key;
-    char t = 178;
-    for (int i = 0; i < f; i++) {
-        gotoxy(i, 0);
-        printf("%c", t);
-        gotoxy(i, c);
-        printf("%c", t);
-    }
-    for (int i = 0; i <= c; i++) {
-        gotoxy(0, i);
-        printf("%c", t);
-        gotoxy(f, i);
-        printf("%c", t);
-    }
+void Scene::tiempo()
+{
+    //con este metdo quiero hacer que el juego corra a 30 cuadros por segundo dando una
+    static long   t = clock();
+    const float fps = 5.0f;
 
-    std::string g4meover[] = { "  ____                       ___"," / ___| __ _ _ __ ___   ___ / _ \\__   _____ _ __ ",
-    "| |  _ / _` | '_ ` _ \\ / _ \\ | | \\ \\ / / _ \\ '__|","| |_| | (_| | | | | | |  __/ |_| |\\ V /  __/ | ",
-    " \\____|\\__,_|_| |_| |_|\\___|\\___/  \\_/ \\___|_|" };
-    r = 2;
-    for (int i = 0; i < 5; i++) {
-        gotoxy(15, r);
-        r++;
-        std::cout << g4meover[i] << std::endl;
-        
+    long toWait = t + CLOCKS_PER_SEC / fps - clock();
+    if (toWait > 0) {
+        Sleep(toWait);
     }
-
-    std::string g4meover2[] = { "   _________         _________","  /         \\       /         \\",
-    " /  /~~~~~\\  \\     /  /~~~~~\\  \\"," |  |     |  |     |  |     |  |"," |  |     |  |     |  |     |  |",
-    " |  |     |  |     |  |     |  |         /"," |  |     |  |     |  |     |  |       //","(X  X)    \\  \\_____/  /     \\  \\_____/ /",
-    " \\__/      \\         /       \\        /","  |         ~~~~~~~~~         ~~~~~~~~","  ^" };
-    for (int i = 0; i < 11; i++) {
-        gotoxy(20, r);
-        std::cout << g4meover2[i] << std::endl;
-        r++;
-
-    }
-    gotoxy(8, 23);
-    printf( "Presione ESC para salir o cualquier otra tecla para seguir jugando");
-    /*key = _getch();
-    if (key == 27)
-        exit(1);*/
-}
-
-
-void Scene::portada() {
-    system("cls");
-    int c = 24, f = 79, r;
-    char t = 178;
-    for (int i = 0; i < f; i++) {
-        gotoxy(i, 0);
-        printf("%c", t);
-        gotoxy(i, c);
-        printf("%c", t);
-    }
-    for (int i = 0; i <= c; i++) {
-        gotoxy(0, i);
-        printf("%c", t);
-        gotoxy(f, i);
-        printf("%c", t);
-    }
-    std::string snkd[] = { "       ---_ ......._-_--.","      (|\\ /      / /| \\  \\","      /  /     .'  -=-'   `.",
-            "     /  /    .'             )","   _/  /   .'        _.)   /","  / o   o        _.-' /  .'",
-            "  \\          _.-'    / .'*|","   \\______.-'//    .'.' \\*|","    \\|  \\ | //   .'.' _ |*|",
-            "     `   \\|//  .'.'_ _ _|*|","      .  .// .'.' | _ _ \\*|","      \\`-|\\_/ /    \\ _ _ \\*\\",
-            "                     \\ _ _ \\*","                      \\ _ _ \\ ","                       \\_" };
-
-    r = 2;
-    for (int i = 0; i < 14; i++) {
-        gotoxy(20, r);
-        r++;
-        std::cout << snkd[i] << std::endl;
-    }
-
-    std::string snkl[] = { "                     __     ","   _________  ____ _/ /_____","  / ___/ __ \\/ __ `/ //_/ _ \\",
-    " (__  ) / / / /_/ / ,< /  __/","/____/_/ /_/\\__,_/_/|_|\\___/" };
-    for (int i = 0; i < 5; i++) {
-        gotoxy(22, r);
-        r++;
-        std::cout << snkl[i] << std::endl;
-    }
-    gotoxy(23, 23);
-    printf( "Precione ENTER para empezar");
-    system("pause>dsdsd");
-    system("cls");
-}
-
-void Scene::portada2() {
-    //SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 0 + 13);
-    system("color 0a");
-    system("cls");
-    int c = 24, f = 79, r;
-    char t = 178;
-    for (int i = 0; i < f; i++) {
-        gotoxy(i, 0);
-        printf("%c", t);
-        gotoxy(i, c);
-        printf("%c", t);
-    }
-    for (int i = 0; i <= c; i++) {
-        gotoxy(0, i);
-        printf("%c", t);
-        gotoxy(f, i);
-        printf("%c", t);
-    }
-    std::string snkd[] = { "       ---_ ......._-_--.","      (|\\ /      / /| \\  \\","      /  /     .'  -=-'   `.",
-            "     /  /    .'             )","   _/  /   .'        _.)   /","  / o   o        _.-' /  .'",
-            "  \\          _.-'    / .'*|","   \\______.-'//    .'.' \\*|","    \\|  \\ | //   .'.' _ |*|",
-            "     `   \\|//  .'.'_ _ _|*|","      .  .// .'.' | _ _ \\*|","      \\`-|\\_/ /    \\ _ _ \\*\\",
-            "                     \\ _ _ \\*","                      \\ _ _ \\ ","                       \\_" };
-
-    r = 2;
-    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 0 + 13);
-    for (int i = 0; i < 14; i++) {
-        gotoxy(20, r);
-        r++;
-        std::cout << snkd[i] << std::endl;
-    }
-
-    std::string snkl[] = { "                     __     ","   _________  ____ _/ /_____","  / ___/ __ \\/ __ `/ //_/ _ \\",
-    " (__  ) / / / /_/ / ,< /  __/","/____/_/ /_/\\__,_/_/|_|\\___/" };
-    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 0 + 14);
-    for (int i = 0; i < 5; i++) {
-        gotoxy(22, r);
-        r++;
-        std::cout << snkl[i] << std::endl;
-    }
-    gotoxy(23, 23);
-    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 0 + 15);
-    printf( "Precione ENTER para empezar");
-    system("pause>dsdsd");
-    system("cls");
+    t = clock();
 }
 
 

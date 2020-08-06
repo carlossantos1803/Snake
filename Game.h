@@ -14,9 +14,10 @@ public:
     Game();
     ~Game();
 
-    void tiempo();
     void restricciones();
-
+    void muerte2();
+    void portada();
+    void portada2();
     void leerTeclado();
     void endGame();
     void run();

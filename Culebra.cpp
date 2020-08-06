@@ -1,12 +1,14 @@
 #include "Culebra.h"
 
-    Culebra::Culebra() {
-        direction = 's';
-        for (int i = 0; i < 3; ++i) {
-            snake.push_back(std::make_pair(8, 10 - i));
-        }
-        body.push_back(64);
+Culebra::Culebra() {
+    direction = 's';
+    for (int i = 0; i < 3; ++i) {
+        snake.push_back(std::make_pair(8, 10 - i));
+    }
+    body.push_back(64);
+    for (int i = 0; i < 2; ++i){
         body.push_back(79);
+    }
         color = 10;
     };
     Culebra::~Culebra() {};
@@ -41,6 +43,7 @@
         x = snake[snake.size() - 1].first + x;
         y = snake[snake.size() - 1].second + y;
         snake.push_back(std::make_pair(x, y));
+        body.push_back(79);
     }
 
     void Culebra::moverSnake()

@@ -19,10 +19,10 @@ Culebra::Culebra() {
     void Culebra::setObject(const std::vector <std::pair<int, int>>& t_snake) {
         snake = t_snake;
     }
-    char Culebra::getDirection() {
+    char Culebra::getDirection() const {
         return direction;
     }
-    void Culebra::setDirection(char t_direction) {
+    void Culebra::setDirection(const char& t_direction) {
             direction = t_direction;
      }
     bool Culebra::restricciones() {

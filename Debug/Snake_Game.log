@@ -1,13 +1,2 @@
 ﻿  Culebra.cpp
-  Game.cpp
-C:\carlossantos\git\Snake_Game\Game.cpp(87,14): warning C4309: 'inicializando': truncamiento de valor constante
-C:\carlossantos\git\Snake_Game\Game.cpp(133,14): warning C4309: 'inicializando': truncamiento de valor constante
-C:\carlossantos\git\Snake_Game\Game.cpp(177,14): warning C4309: 'inicializando': truncamiento de valor constante
-  Objetos.cpp
-  Scene.cpp
-C:\carlossantos\git\Snake_Game\Scene.cpp(5,15): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
-  Snake_Game.cpp
-  Wall.cpp
-C:\carlossantos\git\Snake_Game\Wall.cpp(27,24): warning C4309: 'argumento': truncamiento de valor constante
-  Generando código...
   Snake_Game.vcxproj -> C:\carlossantos\git\Snake_Game\Debug\Snake_Game.exe

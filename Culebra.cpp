@@ -26,9 +26,11 @@ Culebra::Culebra() {
             direction = t_direction;
      }
     bool Culebra::restricciones() {
+        std::vector<std::pair<int, int>>::iterator i;
         //aqui van los if los cuales limitaran el movimiento de la snake
-        for (unsigned int i = 1; i < snake.size(); ++i) {
-            if (snake[0] == snake[i]) {
+        //for (unsigned int i = 1; i < snake.size(); ++i) {
+        for (i = snake.begin() + 1; i < snake.end(); ++i) {
+            if (snake[0] == *i) {
                 return true;
             }
         }

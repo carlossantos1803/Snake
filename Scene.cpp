@@ -63,17 +63,23 @@ void Scene::update()
 void Scene::newFood()
 {
     std::vector<std::pair<int, int>> temp;
+    std::vector<std::pair<int, int>> t_Snake = snake.getObject();
+    std::vector<std::pair<int, int>>::iterator it;
     unsigned int x = 0, y = 0;
     x = rand() % (board_X - 3) + 3;
     y = rand() % (board_Y - 4) + 3;
     temp.push_back(std::make_pair(x, y));
-    for (unsigned int i = 0; i < snake.getObject().size(); ++i) {
-        if (snake.getObject()[i] != temp[0]) {
+    //for (unsigned int i = 0; i < snake.getObject().size(); ++i) {
+    //for (it = snake.getObject().begin(); it < snake.getObject().end(); ++it ){
+    for (it = t_Snake.begin(); it < t_Snake.end(); ++it) {
+        //if (snake.getObject()[i] != temp[0]) {
+        if (*it != temp[0]) {
             food.setObject(temp);
             gotoxy(55, 15);
             printf(" %d , %d ", food.getObject()[0].first, food.getObject()[0].second);
          }
-        else if (snake.getObject()[i] == temp[0]) {
+        //else if (snake.getObject()[i] == temp[0]) {
+        else if (*it == temp[0]) {
             newFood();
             break;
         }
@@ -121,11 +127,16 @@ bool Scene::restricciones()
 }
 
 void Scene::wallMagic(bool type) {
+    std::vector<std::pair<int, int>>::iterator it;
     std::vector<std::pair<int, int>> t_snake = snake.getObject();
-    for (unsigned int i = 0; i < wall.getObject().size(); ++i) {
-        if (snake.getObject()[0] == wall.getObject()[i]) {
+    std::vector<std::pair<int, int>> t_wall = wall.getObject();
+    //for (unsigned int i = 0; i < wall.getObject().size(); ++i) {
+    for (it = t_wall.begin(); it < t_wall.end(); ++it) {
+        //if (snake.getObject()[0] == wall.getObject()[i]) {
+        if (snake.getObject()[0] == *it) {
             SetConsoleTextAttribute(console, 15);
-            gotoxy(wall.getObject()[i].first, wall.getObject()[i].second);
+            //gotoxy(wall.getObject()[i].first, wall.getObject()[i].second);
+            gotoxy(it->first, it->second); 
             printf("%c", wall.getBody()[0]);
             if (!type) {
                 tipoPared = true;

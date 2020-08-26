@@ -17,7 +17,7 @@ public:
 	Scene();
 	~Scene();
 	void gotoxy(int t_x, int t_y);
-	void pintar(Objetos &obj);
+	void pintar(Objetos& obj);
 	void limpiar(Objetos& obj);
 	void crearScena();
 	void update();
